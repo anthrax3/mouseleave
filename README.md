@@ -1,7 +1,6 @@
+# mouseleave
 
-# mouseenter
-
-mouseenter shim utility
+mouseleave shim utility
 
 ## Licence
 
