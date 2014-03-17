@@ -1,32 +1,30 @@
-
-/**
- * mouseleave
- */
-
-var within = require('within')
-var events = require('event')
+var events = require('event');
 
 module.exports = mouseleave
 
-var listeners = []
-var fns = []
+/**
+ * invoke fn {Function} on mouseleave event for el {Element}
+ * @return {Function} unbind function
+ */
 
-function mouseleave (el, fn) {
-  function listener (ev) {
-    var inside = within(ev, ev.target, 'toElement')
-    if (inside) return
-    if (fn) fn.call(this, ev)
+function mouseleave(el, fn) {
+  function listener(ev) {
+    var related = ev.relatedTarget;
+    if (!related || (related !== el && contains(el, related))) {
+      fn.call(this, ev);
+    }
   }
-  listeners.push(listener)
-  fns.push(fn)
-  events.bind(el, 'mouseout', listener)
+
+  events.bind(el, 'mouseout', listener);
+  return function() {
+    events.unbind(el, 'mouseout', listener);
+  }
 }
 
-mouseleave.bind = mouseleave
-
-mouseleave.unbind = function (el, fn) {
-  var idx = fns.indexOf(fn)
-  if (!~idx) return
-  fns.splice(idx, 1)
-  events.unbind(el, 'mouseout', listeners.splice(idx, 1)[0])
+function contains(haystack, needle) {
+  var targ = needle;
+  while (targ && targ !== haystack) {
+    targ = targ.parentNode;
+  }
+  return targ !== haystack;
 }

@@ -1,0 +1,26 @@
+{
+  "name": "mouseleave",
+  "version": "0.0.2",
+  "description": "mouseleave shim utility",
+  "keywords": [
+    "mouse",
+    "mouseleave",
+    "events"
+  ],
+  "scripts": {
+    "test": "zuul -- test/index.js",
+    "test-local": "zuul --local -- test/index.js"
+  },
+  "author": "stagas",
+  "licence": "MIT",
+  "dependencies": {
+    "component-event": "0.1.3"
+  },
+  "browser": {
+    "event": "component-event"
+  },
+  "devDependencies": {
+    "zuul": "~1.5.4",
+    "synthetic-dom-events": "~0.1.1"
+  }
+}
